@@ -24,14 +24,14 @@ def call(){
                   switch(params.compileTool)
                     {
                         case 'Maven':
-                            def ejecucion = load 'maven.groovy'
+                           // def ejecucion = load 'maven.groovy'
                             slackSend color: 'good', message: "entre por maven[${NOMBRE}] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'tokenslack'    
-                            ejecucion.call()
+                            maven.call()
                         break;
                         case 'Gradle':
-                            def ejecucion = load 'gradle.groovy'
+                            //def ejecucion = load 'gradle.groovy'
                             slackSend color: 'good', message: "entre por gradle[${NOMBRE}] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'tokenslack'    
-                            ejecucion.call()
+                            gradle.call()
                         break;
 
 
