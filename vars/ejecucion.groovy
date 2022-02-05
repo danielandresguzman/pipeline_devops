@@ -6,21 +6,22 @@ def call(){
             NEXUS_PASS     = credentials('NEXUS-PASS')
         }
         parameters {
-            choice( name:'compileTool', choices: ['Maven', 'Gradl'], description: 'Seleccione herramienta de compilacion' )
+            choice( name:'compileTool', choices: ['Maven', 'Gradle'], description: 'Seleccione herramienta de compilacion' )
         }
         stages {
             stage("Pipeline"){
                 steps {
                     script{
                     def ci_or_cd = verifyBranchName()
-                    figlet ci_or_cd;
+                    figlet ci_or_cd
+                    figlet params.compileTool
                     switch(params.compileTool)
                         {
                             case 'Maven':
                                 figlet 'Ejecución con Maven'
                                 maven.call(verifyBranchName())
                             break;
-                            case 'Gradl':
+                            case 'Gradle':
                                 figlet 'Ejecución con Gradle'
                                 gradle.call(verifyBranchName())
                             break;
