@@ -96,14 +96,18 @@ def stageCurlJar(){
 }
 
 def runCI(){
+    sh "entro a ci"
     stageCleanBuildTest()
+    sh "paso 1 a ci"
     stageSonar()
     stageRunJar()
     stageUploadNexus()
 }
 
 def runCD(){
+    sh "entro a cd"
     stageDownloadNexus()
+    sh "paso 1 a cd"
     stageRunJar()
     stageUploadNexus()
 }
