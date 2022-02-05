@@ -12,20 +12,20 @@ def call(){
           stage("Pipeline"){
               steps {
                   script{
-                      sh "env"
-                      env.TAREA = ""
-                      if(params.compileTool == 'maven'){
-                          //compilar maven
-                          //def executor = load "maven.groovy"
-                          //executor.call()
-                        maven.call();
-                      }else{
-                          //compilar gradle
-                          //def executor = load "gradle.groovy"
-                          //executor.call()
-                        gradle.call()
-                      }
-                  }
+                    def ci_or_cd = verifyBranchName()
+                    figlet ci_or_cd;
+                    switch(params.compileTool)
+                        {
+                            case 'Maven':
+                                figlet 'Ejecución con Maven'
+                                maven.call(verifyBranchName())
+                            break;
+                            case 'Gradle':
+                                figlet 'Ejecución con Gradle'
+                                gradle.call(verifyBranchName())
+                            break;
+                        }
+                    }
               }
               post{
           success{
@@ -38,5 +38,13 @@ def call(){
           }
       }
   }
+}
+
+def verifyBranchName(){
+	if(env.GIT_BRANCH.contains('feature-') || env.GIT_BRANCH.contains('develop')) {
+		return 'CI'
+	} else {
+		return 'CD'
+	}
 }
 return this;
