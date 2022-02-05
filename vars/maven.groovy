@@ -24,8 +24,8 @@ def call(){
     stage("Paso 5: Levantar Springboot APP"){
         sh 'mvn spring-boot:run &'
     }
-    stage("Paso 6: Dormir(Esperar 10sg) "){
-        sh 'sleep 10'
+    stage("Paso 6: Dormir(Esperar 40sg) "){
+        sh 'sleep 40'
     }
     stage("Paso 7: Test Alive Service - Testing Application!"){
         sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'

@@ -20,6 +20,8 @@ def call(){
         sh "gradle bootRun&"
         sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
+    }
+
     env.TAREA="Paso 3: Curl Springboot Gradle sleep 20"
     stage("$env.TAREA"){
     stage("Paso 4: Subir Nexus"){
@@ -42,20 +44,26 @@ def call(){
             ]
         ]
     }
+    }
+
     env.TAREA="Paso 3: Curl Springboot Gradle sleep 20"
     stage("$env.TAREA"){
     stage("Paso 5: Descargar Nexus"){
         sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
     }
+    }
+
     env.TAREA="Paso 3: Curl Springboot Gradle sleep 20"
     stage("$env.TAREA"){
     stage("Paso 6: Levantar Artefacto Jar"){
         sh 'nohup java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
     }
+    }
     env.TAREA="Paso 3: Curl Springboot Gradle sleep 20"
     stage("$env.TAREA"){
     stage("Paso 7: Testear Artefacto - Dormir(Esperar 20sg) "){
         sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+    }
     }
 }
 return this;
