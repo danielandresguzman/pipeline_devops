@@ -5,6 +5,7 @@ def call(){
           NEXUS_USER         = credentials('NEXUS-USER')
           NEXUS_PASS     = credentials('NEXUS-PASS')
       }
+      figlet 'Ejecución'
       parameters {
           choice choices: ['maven', 'gradle'], description: 'Seleccione una herramienta para preceder a compilar', name: 'compileTool'
       }
@@ -12,16 +13,16 @@ def call(){
           stage("Pipeline"){
               steps {
                   script{
+                    
                     switch(params.compileTool)
                         {
                             case 'Maven':
                                 maven.call(verifyBranchName())
-                                   slackSend color: 'good', message: "[maven] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431'
-                             
                             break;
                             case 'Gradle':
+                                echo 'Ejecución con Gradle'
+                                figlet 'Ejecución con Gradle'
                                 gradle.call(verifyBranchName())
-                                slackSend color: 'good', message: "[gradle] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431'
                             break;
                         }
                     }
