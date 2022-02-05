@@ -5,7 +5,7 @@ def call(){
           NEXUS_USER         = credentials('NEXUS-USER')
           NEXUS_PASS     = credentials('NEXUS-PASS')
       }
-      figlet 'Ejecución'
+     
       parameters {
           choice choices: ['maven', 'gradle'], description: 'Seleccione una herramienta para preceder a compilar', name: 'compileTool'
       }
