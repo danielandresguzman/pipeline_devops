@@ -4,7 +4,7 @@
 	ejecucion.call()
 */
 def call(String pipelineType){
-    echo  pipelineType
+    figlet pipelineType
     if (pipelineType == 'CI') {
         runCI()
     } else {
@@ -33,12 +33,12 @@ def stageSonar(){
 }
 
 def stageRunSpringCurl(){
-    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot Gralde sleep 40"
+    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot Gralde sleep 20"
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "run_spring_curl - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
         sh "gradle bootRun&"
-        sh "sleep 40 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
@@ -73,7 +73,7 @@ def stageDownloadNexus(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "download_nexus - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
     }
 }
 
@@ -87,25 +87,22 @@ def stageRunJar(){
 }
 
 def stageCurlJar(){
-    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 40sg "
+    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 20sg "
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "curl_jar - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 40 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
 def runCI(){
-    echo  "entrre a ci"
     stageCleanBuildTest()
-    echo  "entrre a ci2"
     stageSonar()
     stageRunJar()
     stageUploadNexus()
 }
 
 def runCD(){
-    echo  "entrre a cd"
     stageDownloadNexus()
     stageRunJar()
     stageUploadNexus()
