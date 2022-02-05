@@ -4,7 +4,6 @@
 	ejecucion.call()
 */
 def call(String pipelineType){
-     sh "figlet pipelineType"
     if (pipelineType == 'CI') {
         runCI()
     } else {
