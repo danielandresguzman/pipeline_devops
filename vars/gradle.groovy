@@ -4,6 +4,7 @@
 	ejecucion.call()
 */
 def call(String pipelineType){
+    echo  pipelineType
     if (pipelineType == 'CI') {
         runCI()
     } else {
@@ -95,18 +96,17 @@ def stageCurlJar(){
 }
 
 def runCI(){
-    sh "entro a ci"
+    echo  "entrre a ci"
     stageCleanBuildTest()
-    sh "paso 1 a ci"
+    echo  "entrre a ci2"
     stageSonar()
     stageRunJar()
     stageUploadNexus()
 }
 
 def runCD(){
-    sh "entro a cd"
+    echo  "entrre a cd"
     stageDownloadNexus()
-    sh "paso 1 a cd"
     stageRunJar()
     stageUploadNexus()
 }
