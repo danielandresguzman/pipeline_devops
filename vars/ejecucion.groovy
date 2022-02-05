@@ -15,13 +15,11 @@ def call(){
                     switch(params.compileTool)
                         {
                             case 'Maven':
-                                figlet 'Ejecución con Maven'
                                 maven.call(verifyBranchName())
                                    slackSend color: 'good', message: "[maven] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431'
                              
                             break;
                             case 'Gradle':
-                                figlet 'Ejecución con Gradle'
                                 gradle.call(verifyBranchName())
                                 slackSend color: 'good', message: "[gradle] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431'
                             break;
