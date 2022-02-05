@@ -15,7 +15,7 @@ def call(){
             sh "mvn clean package -e"
     }
     stage("Paso 4: Análisis SonarQube"){
-        withSonarQubeEnv('sonarqube1') {
+        withSonarQubeEnv('sonarqube') {
             sh "echo 'Calling sonar Service in another docker container!'"
             // Run Maven on a Unix agent to execute Sonar.
             sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=github-sonar'
