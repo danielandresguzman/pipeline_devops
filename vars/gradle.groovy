@@ -5,11 +5,12 @@
 */
 def call(String pipelineType){
     figlet pipelineType
-    if (pipelineType == 'CI') {
+    runall()
+    /*if (pipelineType == 'CI') {
         runCI()
     } else {
         runCD()
-    }
+    }*/
 }
 
 def stageCleanBuildTest(){
@@ -73,7 +74,7 @@ def stageDownloadNexus(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "download_nexus - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
     }
 }
 
@@ -93,6 +94,18 @@ def stageCurlJar(){
         sh "echo  ${env.STAGE}"
         sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
+}
+
+def runall(){
+    stageCleanBuildTest()
+    stageSonar()
+    stageRunJar()
+    stageCurlJar()
+    stageUploadNexus()
+    stageDownloadNexus()
+    stageRunJar()
+    stageUploadNexus()
+    stageCurlJar()
 }
 
 def runCI(){
