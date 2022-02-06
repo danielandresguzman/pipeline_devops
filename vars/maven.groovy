@@ -1,8 +1,46 @@
+
+def call(String pipelineType){
+    figlet pipelineType
+    figlet "Laboratorio"
+    runCI()
+   /* if (pipelineType == 'CI') {
+        runCI()
+    } else {
+        runCD()
+    }
+    */
+}
+
+def compilar(){
+    env.DESCRTIPTION_STAGE = 'compilar'
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "build - ${env.DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh "mvn clean compile -e"
+    }
+}
+
+def testear(){
+    env.DESCRTIPTION_STAGE = 'testear'
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "${env.DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh "mvn clean test -e"
+    }
+}
+
+def runCI(){
+   compilar()
+   testear()
+}
+
+def runCD(){
+
+}
+
+
+
 /*
-	forma de invocación de método call:
-	def ejecucion = load 'script.groovy'
-	ejecucion.call()
-*/
 def call(stages){
   stage("Paso 1: Compliar"){
     sh "mvn clean compile -e"
@@ -50,6 +88,6 @@ def call(stages){
   }
   stage("Paso 9: Testear Artefacto - Dormir(Esperar 20sg) "){
       sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-  }
-}
+  }*/
+
 return this;
