@@ -34,12 +34,12 @@ def stageSonar(){
 }
 
 def stageRunSpringCurl(){
-    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot Gralde sleep 20"
+    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot Gralde sleep 50"
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "run_spring_curl - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
         sh "gradle bootRun&"
-        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 50 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
@@ -88,11 +88,11 @@ def stageRunJar(){
 }
 
 def stageCurlJar(){
-    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 20sg "
+    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 50sg "
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "curl_jar - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 50 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
