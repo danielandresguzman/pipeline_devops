@@ -101,32 +101,6 @@ def nexusDownload(){
 
 }
 
-def run(){
-    env.DESCRTIPTION_STAGE = "run"
-    stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "run - ${DESCRTIPTION_STAGE}"
-        sh "echo  ${env.STAGE}"
-        sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
-    }
-}
-
-def run(){
-    env.DESCRTIPTION_STAGE = "run artefacto"
-    stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "run artefacto - ${DESCRTIPTION_STAGE}"
-        sh "echo  ${env.STAGE}"
-        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
-    }
-}
-
-def test(){
-    env.DESCRTIPTION_STAGE = "test artefacto"
-    stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "test artefacto - ${DESCRTIPTION_STAGE}"
-        sh "echo  ${env.STAGE}"
-        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
-    }
-}
 
 
 
@@ -139,8 +113,7 @@ def runCI(){
    gitCreateRelease()
    gitDiff()
    nexusDownload()
-   run()
-   test()
+  
 }
 
 def runCD(){
