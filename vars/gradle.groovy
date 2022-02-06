@@ -33,15 +33,7 @@ def stageSonar(){
     }
 }
 
-def stageRunSpringCurl(){
-    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot Gralde sleep 50"
-    stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "run_spring_curl - ${DESCRTIPTION_STAGE}"
-        sh "echo  ${env.STAGE}"
-        sh "gradle bootRun&"
-        sh "sleep 50 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-    }
-}
+
 
 def stageUploadNexus(){
     env.DESCRTIPTION_STAGE = "Paso 4: Subir Nexus"
@@ -87,20 +79,34 @@ def stageRunJar(){
     }
 }
 
+
+def stageRunSpringCurl(){
+    env.DESCRTIPTION_STAGE = "Paso 3: Curl Springboot gradle sleep 60"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "run_spring_curl - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh "gradle bootRun&"
+        sh "sleep 60 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+    }
+}
+
 def stageCurlJar(){
-    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 50sg "
+    env.DESCRTIPTION_STAGE = "Paso 7: Testear Artefacto - Dormir Esperar 60 "
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "curl_jar - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 50 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 60 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
+
+
+
 
 def runall(){
     stageCleanBuildTest()
     stageSonar()
     stageRunJar()
-    stageCurlJar()
+    stageRunSpringCurl()
     stageUploadNexus()
     stageDownloadNexus()
     stageRunJar()
