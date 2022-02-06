@@ -23,7 +23,7 @@ def call(){
                             break;
                             case 'Gradle':
                                 figlet 'Ejecución con Gradle anterior'
-                                gradle.call(verifyBranchName())*/
+                                gradle.call(verifyBranchName())
                             break;
                         }
                     }
