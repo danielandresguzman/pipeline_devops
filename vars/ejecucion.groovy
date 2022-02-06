@@ -22,8 +22,9 @@ def call(){
                                 maven.call(verifyBranchName())
                             break;
                             case 'Gradle':
-                                figlet 'Ejecución con Gradle'
-                                gradle.call(verifyBranchName())
+                                figlet 'Ejecución con Gradle anterior'
+                                gradle.call()
+                                /*gradle.call(verifyBranchName())*/
                             break;
                         }
                     }
