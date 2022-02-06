@@ -44,7 +44,7 @@ def sonar(){
         env.STAGE = "sonar - ${DESCRTIPTION_STAGE}"
         withSonarQubeEnv('sonarqube') {
                   sh "echo  ${env.STAGE}"
-          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=Laboratorio_mod3Grupo2 -Dsonar.java.binaries=build'
       }
     }
 }
