@@ -11,7 +11,7 @@ def call(String pipelineType){
     */
 }
 
-def compilar(){
+def compile(){
     env.DESCRTIPTION_STAGE = 'compilar'
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "build - ${env.DESCRTIPTION_STAGE}"
@@ -20,7 +20,7 @@ def compilar(){
     }
 }
 
-def testear(){
+def unitTest(){
     env.DESCRTIPTION_STAGE = 'testear'
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${env.DESCRTIPTION_STAGE}"
@@ -29,9 +29,67 @@ def testear(){
     }
 }
 
+def jar(){
+    env.DESCRTIPTION_STAGE = "jar"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "run_jar - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh 'mvn clean package -e'
+    }
+}
+
+def sonar(){
+    env.DESCRTIPTION_STAGE = "sonar"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "sonar - ${DESCRTIPTION_STAGE}"
+        withSonarQubeEnv('sonarqube') {
+                  sh "echo  ${env.STAGE}"
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
+      }
+    }
+}
+
+def nexusUpload(){
+    env.DESCRTIPTION_STAGE = "nexusUpload"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        nexusPublisher nexusInstanceId: 'nexus',
+        nexusRepositoryId: 'devops-usach-nexus',
+        packages: [
+            [$class: 'MavenPackage',
+                mavenAssetList: [
+                    [classifier: '',
+                    extension: '.jar',
+                    filePath: 'build/DevOpsUsach2020-0.0.1.jar'
+                ]
+            ],
+                mavenCoordinate: [
+                    artifactId: 'DevOpsUsach2020',
+                    groupId: 'com.devopsusach2020',
+                    packaging: 'jar',
+                    version: '0.0.1'
+                ]
+            ]
+        ]
+        env.STAGE = "upload_nexus - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+    }
+}
+
+def gitCreateRelease(){
+    env.DESCRTIPTION_STAGE = "gitCreateRelease"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "gitCreateRelease - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+    }
+}
+
 def runCI(){
-   compilar()
-   testear()
+   compile()
+   unitTest()
+   jar()
+   sonar()
+   nexusUpload()
+   gitCreateRelease()
 }
 
 def runCD(){
