@@ -111,9 +111,10 @@ def runCD(){
 return this;*/
 def call(){
     stage("Paso 1: Build && Test"){
+        sh "gradle --version"
         sh "gradle clean build"
     }
-    stage("Paso 2: Sonar - Análisis Estático"){
+   /* stage("Paso 2: Sonar - Análisis Estático"){
         sh "echo 'Análisis Estático!'"
         withSonarQubeEnv('sonarqube') {
             sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
@@ -151,6 +152,6 @@ def call(){
     }
     stage("Paso 7: Testear Artefacto - Dormir(Esperar 40sg) "){
         sh "sleep 40 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-    }
+    }*/
 }
 return this;
