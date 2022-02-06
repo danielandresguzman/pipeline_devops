@@ -110,15 +110,6 @@ def run(){
     }
 }
 
-def test(){
-    env.DESCRTIPTION_STAGE = "test"
-    stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "test - ${DESCRTIPTION_STAGE}"
-        sh "echo  ${env.STAGE}"
-      sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-    }
-} 
-
 def run(){
     env.DESCRTIPTION_STAGE = "run artefacto"
     stage("${env.DESCRTIPTION_STAGE}"){
