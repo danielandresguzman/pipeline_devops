@@ -83,6 +83,81 @@ def gitCreateRelease(){
     }
 }
 
+def gitDiff(){
+    env.DESCRTIPTION_STAGE = "gitDiff"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "gitDiff - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+    }
+}
+
+def nexusDownload(){
+    env.DESCRTIPTION_STAGE = "nexusDownload"
+   stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "download_nexus - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        nexusPublisher
+        nexusInstanceId: 'nexus',
+        nexusRepositoryId: 'devops-usach-nexus',
+        packages: [
+            [$class: 'MavenPackage',
+                mavenAssetList: [
+                    [classifier: '',
+                    extension: '.jar',
+                    filePath: 'build/DevOpsUsach2020-0.0.1.jar'
+                ]
+            ],
+                mavenCoordinate: [
+                    artifactId: 'DevOpsUsach2020',
+                    groupId: 'com.devopsusach2020',
+                    packaging: 'jar',
+                    version: '0.0.1'
+                ]
+            ]
+        ]
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'   
+    }
+
+}
+
+def run(){
+    env.DESCRTIPTION_STAGE = "run"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "run - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+    }
+}
+
+def test(){
+    env.DESCRTIPTION_STAGE = "test"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "test - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+      sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+    }
+} 
+
+def run(){
+    env.DESCRTIPTION_STAGE = "run artefacto"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "run artefacto - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+    }
+}
+
+def test(){
+    env.DESCRTIPTION_STAGE = "test artefacto"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "test artefacto - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASS "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+    }
+}
+
+
+
 def runCI(){
    compile()
    unitTest()
@@ -90,6 +165,10 @@ def runCI(){
    sonar()
    nexusUpload()
    gitCreateRelease()
+   gitDiff()
+   nexusDownload()
+   run()
+   test()
 }
 
 def runCD(){
