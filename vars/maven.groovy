@@ -101,7 +101,7 @@ def nexusDownload(){
 
 }
 
-def run(){
+def runartefacto(){
     env.DESCRTIPTION_STAGE = "run artefacto nexus"
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
@@ -136,7 +136,7 @@ def runCI(){
    gitCreateRelease()
    gitDiff()
    nexusDownload()
-   run()
+   runartefacto()
    test()
   
 }
