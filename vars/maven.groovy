@@ -32,7 +32,7 @@ def unitTest(){
 def jar(){
     env.DESCRTIPTION_STAGE = "jar"
     stage("${env.DESCRTIPTION_STAGE}"){
-        env.STAGE = "run_jar - ${DESCRTIPTION_STAGE}"
+        env.STAGE = "empaquetar - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
         sh 'mvn clean package -e'
     }
@@ -116,8 +116,7 @@ def test(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 40 && curl -X GET 'http://localhost:8082/rest/mscovid/test?msg=testing'"
-        sh "sleep 40 && curl -X GET 'http://localhost:8082/rest/mscovid/estadoMundial?msg=testing'"
+        sh "sleep 60 && curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
                                     
     }
 
