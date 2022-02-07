@@ -83,6 +83,17 @@ def gitCreateRelease(){
     }
 }
 
+def gitCrearrama(){
+    env.DESCRTIPTION_STAGE = "gitCrearrama"
+    stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "gitCrearrama - ${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        withCredentials([gitUsernamePassword(credentialsId: 'usergithub', gitToolName: 'Default')]) {
+            sh 'git checkout -b ramanueva'
+            }
+    }
+}
+
 def gitDiff(){
     env.DESCRTIPTION_STAGE = "gitDiff"
     stage("${env.DESCRTIPTION_STAGE}"){
@@ -149,6 +160,7 @@ def test(){
 
 
 def runCI(){
+    gitCrearrama()
    compile()
    unitTest()
    jar()
