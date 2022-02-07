@@ -112,7 +112,7 @@ def run(){
 }
 
 def test(){
-    env.DESCRTIPTION_STAGE = "test servicios"
+    env.DESCRTIPTION_STAGE = "test servicios descargados"
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
