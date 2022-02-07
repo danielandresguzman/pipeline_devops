@@ -90,7 +90,8 @@ def gitCrearrama(){
         sh "echo  ${env.STAGE}"
         withCredentials([gitUsernamePassword(credentialsId: 'usergithub', gitToolName: 'Default')]) {
             sh 'git checkout -b ramanueva'
-            }
+            sh 'git push origin ramanueva'
+        }
     }
 }
 
@@ -161,16 +162,16 @@ def test(){
 
 def runCI(){
     gitCrearrama()
-   compile()
-   unitTest()
-   jar()
-   //sonar()
-   nexusUpload()
-   gitCreateRelease()
-   gitDiff()
-   nexusDownload()
-   runartefacto()
-   test()
+//    compile()
+//    unitTest()
+//    jar()
+//    //sonar()
+//    nexusUpload()
+//    gitCreateRelease()
+//    gitDiff()
+//    nexusDownload()
+//    runartefacto()
+//    test()
   
 }
 
