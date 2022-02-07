@@ -101,6 +101,29 @@ def nexusDownload(){
 
 }
 
+def run(){
+    env.DESCRTIPTION_STAGE = "run artefacto nexus"
+   stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+    }
+
+}
+
+def test(){
+    env.DESCRTIPTION_STAGE = "test servicios"
+   stage("${env.DESCRTIPTION_STAGE}"){
+        env.STAGE = "${DESCRTIPTION_STAGE}"
+        sh "echo  ${env.STAGE}"
+        sh "sleep 20 && curl -X GET 'http://localhost:8082/rest/mscovid/test?msg=testing'"
+        sh "sleep 20 && curl -X GET 'http://localhost:8082/rest/mscovid/estadoMundial?msg=testing'"
+                                    
+    }
+
+}
+
+
 
 
 
@@ -108,11 +131,13 @@ def runCI(){
    compile()
    unitTest()
    jar()
-   sonar()
+   //sonar()
    nexusUpload()
    gitCreateRelease()
    gitDiff()
    nexusDownload()
+   run()
+   test()
   
 }
 
