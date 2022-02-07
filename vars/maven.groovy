@@ -116,8 +116,8 @@ def test(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 20 && curl -X GET 'http://localhost:8082/rest/mscovid/test?msg=testing'"
-        sh "sleep 20 && curl -X GET 'http://localhost:8082/rest/mscovid/estadoMundial?msg=testing'"
+        sh "sleep 40 && curl -X GET 'http://localhost:8082/rest/mscovid/test?msg=testing'"
+        sh "sleep 40 && curl -X GET 'http://localhost:8082/rest/mscovid/estadoMundial?msg=testing'"
                                     
     }
 
