@@ -88,6 +88,8 @@ def gitDiff(){
     stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "gitDiff - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
+        echo 'Diferencias con branch main'
+        sh "git diff --name-only origin/main..${env.GIT_BRANCH}"
     }
 }
 
@@ -116,8 +118,34 @@ def test(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh "sleep 60 && curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
+        //sh "sleep 60 && curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
                                     
+    
+        def continuar=true
+        def intento=0
+        def intentoMax=10
+        while(continuar){
+            intento++
+            try {
+                //sh "curl -X GET 'http://localhost:8080/rest/mscovid/test?msg=testing'  >> /dev/null "
+                sh "curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
+                
+                continuar=false
+                sh "echo '#### ARRANCADO Intento:${intento}'"
+            } catch (Exception e){
+                sh "echo '#### AUN NO ARRANCA intento:${intento}'"
+                if(intento>intentoMax){
+                    continuar=false
+                    sh "echo '#### Fail intento:${intento}'"
+                    throw new Exception("Se demoro mucho en arrancar   :( ")
+                } else {
+                    sh "sleep 5"
+                }
+            }
+    
+    
+    
+    
     }
 
 }
