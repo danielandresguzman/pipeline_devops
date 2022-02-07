@@ -89,11 +89,36 @@ def gitCrearrama(){
         env.STAGE = "gitCrearrama - ${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
         withCredentials([gitUsernamePassword(credentialsId: 'usergithub', gitToolName: 'Default')]) {
-            sh 'git checkout -b ramanueva'
-            sh 'git push origin ramanueva'
+         try {
+            sh "git rev-parse --verify ramanueva"
+            } catch (Exception e){
+                sh 'git checkout -b ramanueva'
+         }
+         sh "git push origin ramanueva"
         }
     }
 }
+
+// withCredentials([gitUsernamePassword(credentialsId: 'gitlab_user_jg', gitToolName: 'Default')]) {
+//          try {
+//             sh "git rev-parse --verify release-${nombre}"
+//             sh "git push origin release-${nombre}"  //merge a develop
+//          } catch (Exception e){
+//             sh "git checkout -b release-${nombre}"
+//          }
+//          sh "git push origin release-${nombre}"
+//       }
+
+
+withCredentials([gitUsernamePassword(credentialsId: 'gitlab_user_jg', gitToolName: 'Default')]) {
+         try {
+            sh "git rev-parse --verify release-${nombre}"
+            sh "git push origin release-${nombre}"  //merge a develop
+         } catch (Exception e){
+            sh "git checkout -b release-${nombre}"
+         }
+         sh "git push origin release-${nombre}"
+      }
 
 def gitDiff(){
     env.DESCRTIPTION_STAGE = "gitDiff"
