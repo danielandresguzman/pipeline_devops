@@ -119,8 +119,6 @@ def test(){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
         //sh "sleep 60 && curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
-                                    
-    
         def continuar=true
         def intento=0
         def intentoMax=10
@@ -129,7 +127,6 @@ def test(){
             try {
                 //sh "curl -X GET 'http://localhost:8080/rest/mscovid/test?msg=testing'  >> /dev/null "
                 sh "curl -X GET 'http://localhost:8080/rest/mscovid/estadoMundial?msg=testing'"
-                
                 continuar=false
                 sh "echo '#### ARRANCADO Intento:${intento}'"
             } catch (Exception e){
@@ -142,12 +139,9 @@ def test(){
                     sh "sleep 5"
                 }
             }
-    
-    
-    
-    
-    }
+        }
 
+    }
 }
 
 
