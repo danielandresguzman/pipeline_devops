@@ -145,7 +145,8 @@ def runartefacto(){
    stage("${env.DESCRTIPTION_STAGE}"){
         env.STAGE = "${DESCRTIPTION_STAGE}"
         sh "echo  ${env.STAGE}"
-        sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+        //(sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+        sh 'nohup java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
     }
 
 }
